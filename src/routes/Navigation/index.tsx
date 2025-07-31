@@ -18,3 +18,5 @@ export const Navigation = () => {
     </BrowserRouter>
   );
 };
+
+export default Navigation;

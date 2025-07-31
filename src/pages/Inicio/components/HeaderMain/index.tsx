@@ -16,7 +16,9 @@ const HeaderMain = ({ onMenuClick, headerRef }: HeaderProps) => {
       <Toolbar sx={{ justifyContent: "space-between" }}>
         <Box display="flex" alignItems="center" gap={2}>
           <MenuButton onClick={onMenuClick} />
-          <HeaderLogo />
+          <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
+            <HeaderLogo />
+          </Box>
         </Box>
         <Box display="flex" alignItems="center" gap={2}>
           <SearchInput />
