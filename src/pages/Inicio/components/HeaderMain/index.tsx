@@ -13,8 +13,8 @@ type HeaderProps = {
 const HeaderMain = ({ onMenuClick, headerRef }: HeaderProps) => {
   return (
     <AppBar position="fixed" color="default" elevation={0} ref={headerRef}>
-      <Toolbar sx={{ justifyContent: "space-between" }}>
-        <Box display="flex" alignItems="center" gap={2}>
+      <Toolbar sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 2 }}>
+        <Box display="flex" alignItems="center" justifyContent="center" gap={2}>
           <MenuButton onClick={onMenuClick} />
           <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
             <HeaderLogo />
@@ -22,8 +22,8 @@ const HeaderMain = ({ onMenuClick, headerRef }: HeaderProps) => {
         </Box>
         <Box display="flex" alignItems="center" gap={2}>
           <SearchInput />
-          <AvatarButton />
         </Box>
+        <AvatarButton />
       </Toolbar>
     </AppBar>
   );
