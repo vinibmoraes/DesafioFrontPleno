@@ -1,6 +1,7 @@
 import { Drawer, List, ListItem, ListItemIcon, ListItemText } from "@mui/material";
 import PeopleIcon from "@mui/icons-material/People";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
+import HouseIcon from "@mui/icons-material/House";
 import { Link } from "react-router-dom";
 
 type SidebarProps = {
@@ -26,6 +27,10 @@ const Sidebar = ({ open, onClose, headerHeight }: SidebarProps) => {
       }}
     >
       <List>
+      <ListItem component={Link} to="/" onClick={onClose}>
+          <ListItemIcon><HouseIcon /></ListItemIcon>
+          <ListItemText primary="Início" />
+        </ListItem>
         <ListItem component={Link} to="/clientes" onClick={onClose}>
           <ListItemIcon><PeopleIcon /></ListItemIcon>
           <ListItemText primary="Clientes" />

@@ -2,7 +2,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import MainPage from "../../pages/Inicio/Main";
 import AgendaPage from "../../pages/Agenda/Main";
-import AlunosPage from "../../pages/Alunos/Main";
+import ClientesPage from "../../pages/Clientes/Main";
 import { Layout } from "../Layout";
 
 export const Navigation = () => {
@@ -12,7 +12,7 @@ export const Navigation = () => {
         <Routes>
           <Route path="/" element={<MainPage />} />
           <Route path="/agenda" element={<AgendaPage />} />
-          <Route path="/alunos" element={<AlunosPage />} />
+          <Route path="/clientes" element={<ClientesPage />} />
         </Routes>
       </Layout>
     </BrowserRouter>
