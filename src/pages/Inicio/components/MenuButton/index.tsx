@@ -7,7 +7,7 @@ type Props = {
 
 const MenuButton = ({ onClick }: Props) => {
   return (
-    <IconButton edge="start" color="inherit" onClick={onClick}>
+    <IconButton edge="start" onClick={onClick} sx={{ color: "white" }}>
       <MenuIcon />
     </IconButton>
   );

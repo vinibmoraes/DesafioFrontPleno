@@ -5,7 +5,7 @@ import { useLocation } from "react-router-dom";
 import Header from "../../pages/Inicio/components/HeaderMain";
 import Sidebar from "../../pages/Inicio/components/Sidebar";
 import { useLayout } from "./useLayout";
-import themes from "../../themes/ThemesExport"; // importa seu dicionário de temas
+import themes from "../../themes/ThemesExport"; 
 
 type LayoutProps = {
   children: ReactNode;
@@ -16,7 +16,7 @@ export const Layout = ({ children }: LayoutProps) => {
   const location = useLocation();
   const currentPath = location.pathname;
 
-  const theme = themes[currentPath as keyof typeof themes] || themes["/"]; // fallback para mainTheme
+  const theme = themes[currentPath as keyof typeof themes] || themes["/"];
 
   return (
     <ThemeProvider theme={theme}>

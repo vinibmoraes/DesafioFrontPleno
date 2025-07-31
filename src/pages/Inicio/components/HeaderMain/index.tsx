@@ -12,7 +12,7 @@ type HeaderProps = {
 
 const HeaderMain = ({ onMenuClick, headerRef }: HeaderProps) => {
   return (
-    <AppBar position="fixed" color="default" elevation={1} ref={headerRef}>
+    <AppBar position="fixed" color="default" elevation={0} ref={headerRef}>
       <Toolbar sx={{ justifyContent: "space-between" }}>
         <Box display="flex" alignItems="center" gap={2}>
           <MenuButton onClick={onMenuClick} />
