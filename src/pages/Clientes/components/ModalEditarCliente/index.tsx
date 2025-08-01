@@ -9,22 +9,33 @@ import {
     useMediaQuery,
     useTheme,
     Box,
+    Tooltip
   } from "@mui/material";
-  import { useState } from "react";
+  import { useEffect, useState } from "react";
   import CustomButton from "../../../../components/CustomButton";
   import CustomText from "../../../../components/CustomText";
   import SaveIcon from '@mui/icons-material/Save';
+  import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 import { enqueueSnackbar } from "notistack";
   
-  type ModalCadastroClienteProps = {
-    open: boolean;
-    onClose: () => void;
-    onSubmit: (dados: any) => void;
+  type Cliente = {
+    id: number;
+    nome: string;
+    dataNascimento: string;
+    cpf: string;
+    cidade: string;
+    bairro: string;
+    endereco: string;
+    tipoPlano: string;
   };
   
-  const planos = ["Mensal", "Trimestral", "Anual"];
+  type ModalEditarClienteProps = {
+    open: boolean;
+    onClose: () => void;
+    cliente: Cliente | null;
+  };
   
-  const ModalCadastroCliente = ({ open, onClose, onSubmit }: ModalCadastroClienteProps) => {
+  const ModalEditarCliente = ({ open, onClose, cliente }: ModalEditarClienteProps) => {
     const [form, setForm] = useState({
       nome: "",
       nascimento: "",
@@ -35,6 +46,20 @@ import { enqueueSnackbar } from "notistack";
       plano: "",
     });
   
+    useEffect(() => {
+      if (cliente) {
+        setForm({
+          nome: cliente.nome || "",
+          nascimento: cliente.dataNascimento || "",
+          cpf: cliente.cpf || "",
+          cidade: cliente.cidade || "",
+          bairro: cliente.bairro || "",
+          endereco: cliente.endereco || "",
+          plano: cliente.tipoPlano || "",
+        });
+      }
+    }, [cliente]);
+  
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   
@@ -43,21 +68,12 @@ import { enqueueSnackbar } from "notistack";
     };
   
     const handleSubmit = () => {
-      if (!form.nome || !form.nascimento || !form.plano) {
+      if (!form.nome || !form.nascimento) {
         enqueueSnackbar('Preencha os campos obrigatórios!', { variant: 'warning' });
         return;
       }
-      onSubmit(form);
+      // Aqui futuramente pode ir uma função de submit/put
       onClose();
-      setForm({
-        nome: "",
-        nascimento: "",
-        cpf: "",
-        cidade: "",
-        bairro: "",
-        endereco: "",
-        plano: "",
-      });
     };
   
     const labelColor = {
@@ -69,7 +85,7 @@ import { enqueueSnackbar } from "notistack";
     return (
       <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
         <DialogTitle>
-          <CustomText text="Cadastro de Novo Cliente" size="h6" />
+          <CustomText text="Editar Cliente" size="h6" />
         </DialogTitle>
         <DialogContent>
           <Stack spacing={2} mt={1}>
@@ -119,45 +135,45 @@ import { enqueueSnackbar } from "notistack";
               onChange={(e) => handleChange("endereco", e.target.value)}
               sx={labelColor}
             />
-            <TextField
-              select
-              required
-              label="Tipo de Plano"
-              fullWidth
-              value={form.plano}
-              onChange={(e) => handleChange("plano", e.target.value)}
-              sx={labelColor}
-            >
-              {planos.map((p) => (
-                <MenuItem key={p} value={p}>
-                  {p}
-                </MenuItem>
-              ))}
-            </TextField>
+  
+            <Box display="flex" alignItems="center" gap={1}>
+              <TextField
+                label="Tipo de Plano"
+                select
+                fullWidth
+                disabled
+                value={form.plano}
+                sx={labelColor}
+              >
+                <MenuItem value={form.plano}>{form.plano}</MenuItem>
+              </TextField>
+              <Tooltip title="Não é possível trocar o contrato">
+                <WarningAmberIcon color="warning" />
+              </Tooltip>
+            </Box>
           </Stack>
         </DialogContent>
   
         <DialogActions sx={{ px: 3, pb: 2 }}>
-            <Box
-                display="flex"
-                flexDirection={{ xs: "column", sm: "column", md: "row" }}
-                justifyContent="flex-end"
-                alignItems="center"
-                gap={2}
-                width="100%"
-            >
-                <Box width={{ xs: "100%", md: "auto" }}>
-                <CustomButton text="Cancelar" color="#999" onClick={onClose} />
-                </Box>
-                <Box width={{ xs: "100%", md: "auto" }}>
-                <CustomButton startIcon={<SaveIcon />} text="Salvar" onClick={handleSubmit} />
-                </Box>
+          <Box
+            display="flex"
+            flexDirection={{ xs: "column", sm: "column", md: "row" }}
+            justifyContent="flex-end"
+            alignItems="center"
+            gap={2}
+            width="100%"
+          >
+            <Box width={{ xs: "100%", md: "auto" }}>
+              <CustomButton text="Cancelar" color="#999" onClick={onClose} />
             </Box>
+            <Box width={{ xs: "100%", md: "auto" }}>
+              <CustomButton startIcon={<SaveIcon />} text="Salvar" onClick={handleSubmit} />
+            </Box>
+          </Box>
         </DialogActions>
-
       </Dialog>
     );
   };
   
-  export default ModalCadastroCliente;
+  export default ModalEditarCliente;
   

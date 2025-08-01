@@ -18,6 +18,57 @@ import { TableVirtuoso, type TableComponents } from "react-virtuoso";
 import Cliente from "../../../../mocks/Cliente";
 import CustomText from "../../../../components/CustomText";
 import SearchIcon from "@mui/icons-material/Search";
+import EditIcon from '@mui/icons-material/Edit';
+import ModalEditarCliente from "../ModalEditarCliente";
+import { useState } from "react";
+
+
+const ListaClientes = () => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
+  const [searchTerm, setSearchTerm] = React.useState("");
+  const [currentPage, setCurrentPage] = React.useState(0);
+  const rowsPerPage = 10;
+
+  const filteredClientes = React.useMemo(() => {
+    const sorted = [...Cliente]
+      .sort((a, b) => a.nome.localeCompare(b.nome))
+      .filter((c) =>
+        c.nome.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    return sorted;
+  }, [searchTerm]);
+
+  const paginatedClientes = React.useMemo(() => {
+    const start = currentPage * rowsPerPage;
+    return filteredClientes.slice(start, start + rowsPerPage);
+  }, [filteredClientes, currentPage]);
+
+  const totalPages = Math.ceil(filteredClientes.length / rowsPerPage);
+
+  const handlePrevious = () => {
+    setCurrentPage((prev) => Math.max(prev - 1, 0));
+  };
+
+  const handleNext = () => {
+    setCurrentPage((prev) => Math.min(prev + 1, totalPages - 1));
+  };
+
+  //useStates
+const [clienteSelecionado, setClienteSelecionado] = useState<any | null>(null);
+const [openModalEditar, setOpenModalEditar] = useState(false);
+
+
+const handleAbrirModalEditar = (cliente: any) => {
+  setClienteSelecionado(cliente);
+  setOpenModalEditar(true);
+};
+
+const handleFecharModalEditar = () => {
+  setClienteSelecionado(null);
+  setOpenModalEditar(false);
+};
 
 type ClienteData = typeof Cliente[number];
 
@@ -72,8 +123,10 @@ const fixedHeaderContent = () => (
         <CustomText text={column.label} variant="subtitle2" />
       </TableCell>
     ))}
+    <TableCell sx={{ backgroundColor: "background.paper", pr: 2, width: 48 }} />
   </TableRow>
 );
+
 
 const rowContent = (_index: number, row: ClienteData) => (
   <>
@@ -89,40 +142,15 @@ const rowContent = (_index: number, row: ClienteData) => (
     <TableCell>
       <CustomText text={row.tipoPlano} />
     </TableCell>
+    <TableCell sx={{ pr: 2, width: 48 }}>
+      <EditIcon
+        sx={{ cursor: "pointer", color: "primary.main" }}
+        onClick={() => handleAbrirModalEditar (row)}
+      />
+    </TableCell>
+
   </>
 );
-
-const ListaClientes = () => {
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-
-  const [searchTerm, setSearchTerm] = React.useState("");
-  const [currentPage, setCurrentPage] = React.useState(0);
-  const rowsPerPage = 10;
-
-  const filteredClientes = React.useMemo(() => {
-    const sorted = [...Cliente]
-      .sort((a, b) => a.nome.localeCompare(b.nome))
-      .filter((c) =>
-        c.nome.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-    return sorted;
-  }, [searchTerm]);
-
-  const paginatedClientes = React.useMemo(() => {
-    const start = currentPage * rowsPerPage;
-    return filteredClientes.slice(start, start + rowsPerPage);
-  }, [filteredClientes, currentPage]);
-
-  const totalPages = Math.ceil(filteredClientes.length / rowsPerPage);
-
-  const handlePrevious = () => {
-    setCurrentPage((prev) => Math.max(prev - 1, 0));
-  };
-
-  const handleNext = () => {
-    setCurrentPage((prev) => Math.min(prev + 1, totalPages - 1));
-  };
 
   return (
     <>
@@ -149,7 +177,7 @@ const ListaClientes = () => {
           value={searchTerm}
           onChange={(e) => {
             setSearchTerm(e.target.value);
-            setCurrentPage(0); // resetar pra página 0 ao buscar
+            setCurrentPage(0);
           }}
           sx={{ ml: 1, flex: 1 }}
           inputProps={{ "aria-label": "buscar cliente" }}
@@ -198,7 +226,13 @@ const ListaClientes = () => {
           </Button>
         </Stack>
       )}
+      <ModalEditarCliente
+      open={openModalEditar}
+      onClose={handleFecharModalEditar}
+      cliente={clienteSelecionado}
+    />
     </>
+    
   );
 };
 
