@@ -32,7 +32,7 @@ const CustomButton = ({
         color: textColor,
         border: borderColor ? `2px solid ${borderColor}` : "none",
         borderRadius: "8px",
-        paddingX: isMobile ? 2 : 4,
+        paddingX: isMobile ? 1 : 2,
         height: 45,
         minWidth: isMobile ? "100%" : "auto",
         boxShadow: "none",
