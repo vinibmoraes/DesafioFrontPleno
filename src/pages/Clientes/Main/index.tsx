@@ -1,9 +1,18 @@
+import { useState } from "react";
 import { Box, Paper } from "@mui/material";
 import ListaClientes from "../components/ListaClientes";
 import CustomButton from "../../../components/CustomButton";
 import AddIcon from '@mui/icons-material/Add';
+import ModalCadastroCliente from "../components/ModalCadastroCliente";
 
 const ClientesPage = () => {
+  const [openModal, setOpenModal] = useState(false);
+
+  const handleSubmitCliente = (dados: any) => {
+    console.log("Cliente cadastrado:", dados);
+    // Victor, aqui seria onde eu passaria o service com o post pra api.
+  };
+
   return (
     <Box
       sx={{
@@ -19,7 +28,7 @@ const ClientesPage = () => {
             md: "60%",
             }, 
           }}>
-        <CustomButton startIcon={<AddIcon />} text="Novo Cliente" onClick={() => {}} />
+        <CustomButton startIcon={<AddIcon />} text="Novo Cliente" onClick={() => setOpenModal(true)} />
       </Box>
       <Paper
         elevation={1}
@@ -36,6 +45,12 @@ const ClientesPage = () => {
       >
         <ListaClientes />
       </Paper>
+
+      <ModalCadastroCliente
+        open={openModal}
+        onClose={() => setOpenModal(false)}
+        onSubmit={handleSubmitCliente}
+      />
     </Box>
   );
 };
