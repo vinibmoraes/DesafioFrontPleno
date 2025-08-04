@@ -48,6 +48,7 @@ import { enqueueSnackbar } from "notistack";
         return;
       }
       onSubmit(form);
+      enqueueSnackbar('Cliente cadastrado com sucesso!', { variant: 'success' });
       onClose();
       setForm({
         nome: "",

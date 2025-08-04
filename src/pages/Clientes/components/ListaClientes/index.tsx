@@ -186,8 +186,14 @@ const rowContent = (_index: number, row: ClienteData) => (
 
       {isMobile ? (
         paginatedClientes.map((cliente) => (
-          <Paper key={cliente.id} sx={{ p: 2, mb: 2 }}>
-            <CustomText text={cliente.nome} variant="subtitle1" />
+          <Paper key={cliente.id} sx={{ p: 2, mb: 2, position: 'relative' }}>
+            <Box display="flex" justifyContent="space-between" alignItems="center">
+              <CustomText text={cliente.nome} variant="subtitle1" />
+              <EditIcon
+                sx={{ cursor: "pointer", color: "primary.main" }}
+                onClick={() => handleAbrirModalEditar(cliente)}
+              />
+            </Box>
             <CustomText text={`CPF: ${cliente.cpf}`} />
             <CustomText text={`Idade: ${getAgeFromDate(cliente.dataNascimento)} anos`} />
             <CustomText text={`Plano: ${cliente.tipoPlano}`} />

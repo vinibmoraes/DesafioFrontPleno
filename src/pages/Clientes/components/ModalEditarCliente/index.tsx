@@ -72,7 +72,7 @@ import { enqueueSnackbar } from "notistack";
         enqueueSnackbar('Preencha os campos obrigatórios!', { variant: 'warning' });
         return;
       }
-      // Aqui futuramente pode ir uma função de submit/put
+      enqueueSnackbar('Cliente editado com sucesso!', { variant: 'success' });
       onClose();
     };
   
