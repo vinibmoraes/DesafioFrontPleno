@@ -19,7 +19,6 @@ import CustomButton from "../../../../components/CustomButton";
 import { Autocomplete } from "@mui/material";
 import SaveIcon from "@mui/icons-material/Save";
 
-
 interface DetalhesAulaProps {
   open: boolean;
   onClose: () => void;
@@ -47,16 +46,29 @@ const DetalhesAula: React.FC<DetalhesAulaProps> = ({
   
       // Vitão, aqui fiz mockado mesmo, por não ter os alunos vindos do backend
   setAlunosDisponiveis([
-      { id: 1, nome: "Ana Silva" },
-      { id: 2, nome: "Carlos Oliveira" },
-      { id: 3, nome: "Fernanda Costa" },
-      { id: 4, nome: "João Pereira" },
-      { id: 5, nome: "Maria Santos" },
-      
+    { "id": 1, "nome": "Ana Silva" },
+    { "id": 2, "nome": "Carlos Oliveira" },
+    { "id": 3, "nome": "Fernanda Costa" },
+    { "id": 4, "nome": "João Pereira" },
+    { "id": 5, "nome": "Maria Santos" },
+    { "id": 6, "nome": "Pedro Silva" },
+    { "id": 7, "nome": "Carla Oliveira" },
+    { "id": 8, "nome": "Gabriel Souza" },
+    { "id": 9, "nome": "Lucas Martins" },
+    { "id": 10, "nome": "Fabiola Oliveira" },
+    { "id": 11, "nome": "Pedro Halves" },
+    { "id": 12, "nome": "Maria Silva" },
+    { "id": 13, "nome": "Mauricio Costa" },
+    { "id": 14, "nome": "João Augusto" },
+    { "id": 15, "nome": "Julia Silva" },
+    { "id": 16, "nome": "Junior Baiano" },
+    { "id": 17, "nome": "Maria Oliveira" },
+    { "id": 18, "nome": "Sofia Andrade" },
+    { "id": 19, "nome": "João Victor" },
+    { "id": 20, "nome": "João Ernesto" }     
       ]);
     }
   }, [aula, open]);
-
 
   useEffect(() => {
     if (aula) {
@@ -116,7 +128,6 @@ const DetalhesAula: React.FC<DetalhesAulaProps> = ({
     });
   };
   
-
   // Função para remover aluno
   const handleRemoverAluno = (id: number) => {
     setAlunos((prev) => prev.filter((aluno) => aluno.id !== id));
@@ -152,8 +163,6 @@ const DetalhesAula: React.FC<DetalhesAulaProps> = ({
   const capacidadeMaxima = aula?.capacidadeMaxima ?? 0;
   const atingiuCapacidade = alunos.length >= capacidadeMaxima;
 
-  
-
   return (
       <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
         <DialogTitle>Detalhes da Aula</DialogTitle>
@@ -186,7 +195,6 @@ const DetalhesAula: React.FC<DetalhesAulaProps> = ({
           <Typography>
             <strong>Alunos ({alunos.length}):</strong>
           </Typography>
-  
           <Stack direction="row" flexWrap="wrap" gap={1}>
             {alunos.length > 0 ? (
               alunos.map((aluno) => (
@@ -201,7 +209,6 @@ const DetalhesAula: React.FC<DetalhesAulaProps> = ({
               <Typography fontStyle="italic">Nenhum aluno inscrito</Typography>
             )}
           </Stack>
-  
           <Box
             sx={{
               mt: 1,
@@ -256,7 +263,6 @@ const DetalhesAula: React.FC<DetalhesAulaProps> = ({
               />
             )}
           </Box>
-  
           <Box>
             {status === "concluída" ? (
               <Tooltip
@@ -296,16 +302,13 @@ const DetalhesAula: React.FC<DetalhesAulaProps> = ({
           onClick={onClose} 
           text="Cancelar" 
           color="#999"
-          
         />
         <CustomButton 
           startIcon={<SaveIcon />}
           onClick={handleSalvar} 
           text="Salvar" 
           color="primary"
-          
         />
-
       </DialogActions>
     </Dialog>
   );

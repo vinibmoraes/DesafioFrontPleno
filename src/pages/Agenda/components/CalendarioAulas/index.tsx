@@ -8,9 +8,7 @@ import Agenda from "../../../../mocks/Agenda";
 import { type Aula } from "../../../../types/AulaAgenda";
 import CustomText from "../../../../components/CustomText";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import CustomButton from "../../../../components/CustomButton";
 import Tooltip from "@mui/material/Tooltip";
-
 
 type CalendarioAulasProps = {
   onEditarAula?: (aula: Aula) => void;
@@ -53,20 +51,17 @@ const CalendarioAulas = ({ onEditarAula, onVerDetalhes }: CalendarioAulasProps) 
           <ArrowForwardIosIcon />
         </IconButton>
       </Box>
-
       <Box
         display="grid"
         gridTemplateColumns={{
           xs: "1fr", sm: "repeat(2, 1fr)", md: "repeat(3, 1fr)",
-        }}
-        
+        }}    
         gap={2}
       >
         {dias.map((dia, i) => {
           const aulasDoDia = aulas.filter((a) =>
             dayjs(a.dataHora).isSame(dia, "day")
           );
-
           return (
             <Paper key={i} sx={{ p: 2 }}>
               <Typography fontWeight="bold" mb={1}>

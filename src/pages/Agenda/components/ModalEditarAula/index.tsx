@@ -4,14 +4,11 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
-  Button,
   TextField,
   MenuItem,
   FormControl,
   InputLabel,
   Select,
-  useTheme,
-  useMediaQuery,
 } from "@mui/material";
 import { type Aula } from "../../../../types/AulaAgenda";
 import CustomButton from "../../../../components/CustomButton";
@@ -75,7 +72,6 @@ const ModalEditarAula: React.FC<ModalEditarAulaProps> = ({ open, onClose, aula, 
     },
   };
 
-
   return (
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="md" 
     >
@@ -89,7 +85,6 @@ const ModalEditarAula: React.FC<ModalEditarAulaProps> = ({ open, onClose, aula, 
           required
           sx={{...labelStyles, paddingTop: 4}}
         />
-
         <FormControl fullWidth sx={labelStyles}>
           <InputLabel>Tipo da Aula</InputLabel>
           <Select
@@ -105,7 +100,6 @@ const ModalEditarAula: React.FC<ModalEditarAulaProps> = ({ open, onClose, aula, 
             <MenuItem value="Cross">Cross</MenuItem>
           </Select>
         </FormControl>
-
         <TextField
           label="Data e Hora"
           name="dataHora"
@@ -116,7 +110,6 @@ const ModalEditarAula: React.FC<ModalEditarAulaProps> = ({ open, onClose, aula, 
           required
           sx={labelStyles}
         />
-
         <TextField
           label="Capacidade Máxima"
           name="capacidadeMaxima"
@@ -125,7 +118,6 @@ const ModalEditarAula: React.FC<ModalEditarAulaProps> = ({ open, onClose, aula, 
           onChange={handleChange}
           sx={labelStyles}
         />
-
         <TextField
           label="Local"
           name="local"
@@ -134,7 +126,6 @@ const ModalEditarAula: React.FC<ModalEditarAulaProps> = ({ open, onClose, aula, 
           required
           sx={labelStyles}
         />
-
         <FormControl fullWidth sx={labelStyles}>
           <InputLabel>Status</InputLabel>
           <Select
@@ -147,7 +138,6 @@ const ModalEditarAula: React.FC<ModalEditarAulaProps> = ({ open, onClose, aula, 
             <MenuItem value="concluída">Concluída</MenuItem>
           </Select>
         </FormControl>
-
         <FormControl fullWidth sx={labelStyles}>
           <InputLabel>Permite agendamento após início?</InputLabel>
           <Select
@@ -166,7 +156,6 @@ const ModalEditarAula: React.FC<ModalEditarAulaProps> = ({ open, onClose, aula, 
           </Select>
         </FormControl>
       </DialogContent>
-
       <DialogActions>
         <CustomButton onClick={onClose} text="Cancelar" color="#999" />
         <CustomButton startIcon={<SaveIcon />} onClick={handleSubmit} text="Salvar" color="primary"/>

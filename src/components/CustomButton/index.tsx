@@ -1,4 +1,3 @@
-import { DisabledByDefault } from "@mui/icons-material";
 import { Button, useTheme, useMediaQuery } from "@mui/material";
 
 type CustomButtonProps = {

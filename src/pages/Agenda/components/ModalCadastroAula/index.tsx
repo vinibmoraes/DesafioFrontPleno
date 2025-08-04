@@ -81,8 +81,7 @@ import {
               value={form.descricao}
               onChange={(e) => handleChange("descricao", e.target.value)}
               sx={labelColor}
-            />
-  
+            /> 
             <TextField
               select
               required
@@ -96,7 +95,6 @@ import {
                 <MenuItem key={tipo} value={tipo}>{tipo}</MenuItem>
               ))}
             </TextField>
-  
             <TextField
               required
               label="Data e Hora"
@@ -106,8 +104,7 @@ import {
               value={form.dataHora}
               onChange={(e) => handleChange("dataHora", e.target.value)}
               sx={labelColor}
-            />
-  
+            /> 
             <TextField
               required
               label="Capacidade Máxima"
@@ -117,7 +114,6 @@ import {
               onChange={(e) => handleChange("capacidadeMaxima", e.target.value)}
               sx={labelColor}
             />
-  
             <TextField
               select
               required
@@ -131,7 +127,6 @@ import {
                 <MenuItem key={s} value={s}>{s}</MenuItem>
               ))}
             </TextField>
-  
             <TextField
               select
               required
@@ -145,8 +140,7 @@ import {
               <MenuItem value="false">Não</MenuItem>
             </TextField>
           </Stack>
-        </DialogContent>
-  
+        </DialogContent>  
         <DialogActions sx={{ px: 3, pb: 2 }}>
           <Box
             display="flex"

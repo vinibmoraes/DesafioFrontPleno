@@ -78,14 +78,12 @@ const AgendaPage = () => {
         <CustomText text="Agenda Semanal de Aulas" variant="h5" sx={{ mb: 2 }} />
         <CalendarioAulas onEditarAula={handleEditarAula} onVerDetalhes={handleVerDetalhes}/>
       </Paper>
-
       {/* Modal de Cadastro */}
       <ModalCadastroAula
         open={openModal}
         onClose={() => setOpenModal(false)}
         onSubmit={handleCadastrarAula}
       />
-
       {/* Modal de Edição */}
       <ModalEditarAula
         open={openModalEdicao}
@@ -93,7 +91,6 @@ const AgendaPage = () => {
         aula={aulaSelecionada}
         onSubmit={handleSalvarEdicao}
       />
-
       {/* Modal de Detalhes */}
       <DetalhesAula
         open={openDetalhes}
@@ -101,7 +98,6 @@ const AgendaPage = () => {
         aula={aulaSelecionada}
         onSave={handleSalvarEdicao}
       />
-
     </Box>
   );
 };

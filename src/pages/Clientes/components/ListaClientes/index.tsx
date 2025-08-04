@@ -22,7 +22,6 @@ import EditIcon from '@mui/icons-material/Edit';
 import ModalEditarCliente from "../ModalEditarCliente";
 import { useState } from "react";
 
-
 const ListaClientes = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
