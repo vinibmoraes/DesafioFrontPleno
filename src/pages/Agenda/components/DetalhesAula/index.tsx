@@ -75,7 +75,20 @@ const DetalhesAula: React.FC<DetalhesAulaProps> = ({
       return;
     }
   
-    if (!novoAlunoNome.trim()) return;
+    const nomeTrimado = novoAlunoNome.trim();
+    if (!nomeTrimado) return;
+  
+    // Verifica se a aula já começou
+    const agora = new Date();
+    const inicioAula = aula ? new Date(aula.dataHora) : null;
+    const aulaJaComecou = inicioAula && agora > inicioAula;
+  
+    if (aulaJaComecou && !aula?.permiteAgendamentoAposInicio) {
+      enqueueSnackbar("Não é possível adicionar alunos após o início da aula.", {
+        variant: "error",
+      });
+      return;
+    }
   
     if (alunos.length >= (aula?.capacidadeMaxima ?? 0)) {
       enqueueSnackbar("Capacidade máxima de alunos atingida!", {
@@ -84,13 +97,25 @@ const DetalhesAula: React.FC<DetalhesAulaProps> = ({
       return;
     }
   
-    const novoAluno = { id: Date.now(), nome: novoAlunoNome.trim() };
+    const jaExiste = alunos.some(
+      (aluno) => aluno.nome.toLowerCase() === nomeTrimado.toLowerCase()
+    );
+  
+    if (jaExiste) {
+      enqueueSnackbar("Este aluno já está inscrito na aula.", {
+        variant: "warning",
+      });
+      return;
+    }
+  
+    const novoAluno = { id: Date.now(), nome: nomeTrimado };
     setAlunos((prev) => [...prev, novoAluno]);
     setNovoAlunoNome("");
     enqueueSnackbar("Aluno adicionado com sucesso!", {
       variant: "success",
     });
   };
+  
 
   // Função para remover aluno
   const handleRemoverAluno = (id: number) => {
@@ -147,6 +172,9 @@ const DetalhesAula: React.FC<DetalhesAulaProps> = ({
             {aula ? new Date(aula.dataHora).toLocaleString() : ""}
           </Typography>
           <Typography>
+            <strong>Permite Agendamento Pós-Início:</strong> {aula?.permiteAgendamentoAposInicio ? "Sim" : "Não"}
+          </Typography>
+          <Typography>
             <strong>Local:</strong> {aula?.local}
           </Typography>
           <Typography>
@@ -154,8 +182,7 @@ const DetalhesAula: React.FC<DetalhesAulaProps> = ({
           </Typography>
           <Typography>
             <strong>Capacidade Máxima:</strong> {capacidadeMaxima}
-          </Typography>
-  
+          </Typography>  
           <Typography>
             <strong>Alunos ({alunos.length}):</strong>
           </Typography>
@@ -191,7 +218,7 @@ const DetalhesAula: React.FC<DetalhesAulaProps> = ({
               inputValue={novoAlunoNome}
               onInputChange={(_, value) => setNovoAlunoNome(value)}
               disabled={atingiuCapacidade}
-              sx={{ width: '75%' }}  
+              sx={{ width: isSmallScreen ? '100%' : '75%' }}  
               renderInput={(params) => (
                 <TextField
                   {...params}
@@ -260,8 +287,10 @@ const DetalhesAula: React.FC<DetalhesAulaProps> = ({
         <DialogActions sx={{
         display: 'flex',
         flexDirection: isSmallScreen ? 'column' : 'row',
+        justifyContent: isSmallScreen ? 'center' : 'flex-end',
         gap: 1,
-        padding: 2,
+        alignItems: 'flex-end',
+        padding: isSmallScreen ? 4 : 2,
       }}>
         <CustomButton 
           onClick={onClose} 
