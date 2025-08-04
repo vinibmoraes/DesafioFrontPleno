@@ -14,6 +14,9 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import { type Aula } from "../../../../types/AulaAgenda";
+import CustomButton from "../../../../components/CustomButton";
+import SaveIcon from '@mui/icons-material/Save';
+import { enqueueSnackbar } from "notistack";
 
 interface ModalEditarAulaProps {
   open: boolean;
@@ -26,7 +29,7 @@ const ModalEditarAula: React.FC<ModalEditarAulaProps> = ({ open, onClose, aula, 
   const [form, setForm] = useState<Aula>({
     id: 0,
     descricao: "",
-    tipoAula: "",
+    tipoAula: "Musculacao",
     dataHora: "",
     capacidadeMaxima: 0,
     status: "aberta",
@@ -48,9 +51,10 @@ const ModalEditarAula: React.FC<ModalEditarAulaProps> = ({ open, onClose, aula, 
 
   const handleSubmit = () => {
     if (!form.descricao || !form.tipoAula || !form.dataHora || !form.local) {
-      alert("Preencha os campos obrigatórios.");
+      enqueueSnackbar('Preencha os campos obrigatórios!', { variant: 'warning' });
       return;
     }
+    enqueueSnackbar('Aula editada com sucesso!', { variant: 'success' });
     onSubmit(form);
     onClose();
   };
@@ -95,9 +99,10 @@ const ModalEditarAula: React.FC<ModalEditarAulaProps> = ({ open, onClose, aula, 
             onChange={(e) => handleChange(e as React.ChangeEvent<{ name?: string; value: unknown }>)}
             required
           > 
-            <MenuItem value="musculacao">Musculação</MenuItem>
-            <MenuItem value="cardio">Cardio</MenuItem>
-            <MenuItem value="funcional">Funcional</MenuItem>
+            <MenuItem value="Musculacao">Musculação</MenuItem>
+            <MenuItem value="Cardio">Cardio</MenuItem>
+            <MenuItem value="Funcional">Funcional</MenuItem>
+            <MenuItem value="Cross">Cross</MenuItem>
           </Select>
         </FormControl>
 
@@ -163,10 +168,8 @@ const ModalEditarAula: React.FC<ModalEditarAulaProps> = ({ open, onClose, aula, 
       </DialogContent>
 
       <DialogActions>
-        <Button onClick={onClose}>Cancelar</Button>
-        <Button onClick={handleSubmit} variant="contained">
-          Salvar
-        </Button>
+        <CustomButton onClick={onClose} text="Cancelar" color="#999" />
+        <CustomButton startIcon={<SaveIcon />} onClick={handleSubmit} text="Salvar" color="primary"/>
       </DialogActions>
     </Dialog>
   );

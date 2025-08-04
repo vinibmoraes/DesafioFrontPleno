@@ -7,11 +7,18 @@ import AddIcon from "@mui/icons-material/Add";
 import ModalCadastroAula from "../components/ModalCadastroAula";
 import type { Aula } from "../../../types/AulaAgenda";
 import ModalEditarAula from "../components/ModalEditarAula";
+import DetalhesAula from "../components/DetalhesAula";
 
 const AgendaPage = () => {
   const [openModal, setOpenModal] = useState(false);
   const [openModalEdicao, setOpenModalEdicao] = useState(false);
   const [aulaSelecionada, setAulaSelecionada] = useState<Aula | null>(null);
+  const [openDetalhes, setOpenDetalhes] = useState(false);
+
+  const handleVerDetalhes = (aula: Aula) => {
+  setAulaSelecionada(aula);
+  setOpenDetalhes(true);
+  };
 
   const handleCadastrarAula = (dados: any) => {
     console.log("Nova aula cadastrada:", dados);
@@ -69,7 +76,7 @@ const AgendaPage = () => {
         }}
       >
         <CustomText text="Agenda Semanal de Aulas" variant="h5" sx={{ mb: 2 }} />
-        <CalendarioAulas onEditarAula={handleEditarAula}/>
+        <CalendarioAulas onEditarAula={handleEditarAula} onVerDetalhes={handleVerDetalhes}/>
       </Paper>
 
       {/* Modal de Cadastro */}
@@ -86,6 +93,15 @@ const AgendaPage = () => {
         aula={aulaSelecionada}
         onSubmit={handleSalvarEdicao}
       />
+
+      {/* Modal de Detalhes */}
+      <DetalhesAula
+        open={openDetalhes}
+        onClose={() => setOpenDetalhes(false)}
+        aula={aulaSelecionada}
+        onSave={handleSalvarEdicao}
+      />
+
     </Box>
   );
 };

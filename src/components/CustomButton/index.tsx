@@ -1,3 +1,4 @@
+import { DisabledByDefault } from "@mui/icons-material";
 import { Button, useTheme, useMediaQuery } from "@mui/material";
 
 type CustomButtonProps = {
@@ -7,6 +8,8 @@ type CustomButtonProps = {
   borderColor?: string;
   onClick: () => void;
   startIcon?: React.ReactNode;
+  size?: "small" | "medium" | "large";
+  disabled?: boolean;
 };
 
 const CustomButton = ({
@@ -16,9 +19,28 @@ const CustomButton = ({
   borderColor,
   onClick,
   startIcon,
+  size = "medium",
 }: CustomButtonProps) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
+  const sizeStyles = {
+    small: {
+      height: 20,
+      fontSize: 8,
+      paddingX: 0.5,
+    },
+    medium: {
+      height: 40,
+      fontSize: 14,
+      paddingX: 2,
+    },
+    large: {
+      height: 50,
+      fontSize: 16,
+      paddingX: 2.5,
+    },
+  }[size];
 
   return (
     <Button

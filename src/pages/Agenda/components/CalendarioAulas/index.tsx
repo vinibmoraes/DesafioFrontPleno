@@ -2,21 +2,24 @@ import { Box, Paper, Typography, IconButton, Chip, Stack, Button } from "@mui/ma
 import { useState, useEffect } from "react";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import EditIcon from "@mui/icons-material/Edit"; // Importe o ícone de edição
+import EditIcon from "@mui/icons-material/Edit"; 
 import dayjs from "dayjs";
 import Agenda from "../../../../mocks/Agenda";
 import { type Aula } from "../../../../types/AulaAgenda";
 import CustomText from "../../../../components/CustomText";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import CustomButton from "../../../../components/CustomButton";
+import Tooltip from "@mui/material/Tooltip";
+
 
 type CalendarioAulasProps = {
   onEditarAula?: (aula: Aula) => void;
+  onVerDetalhes?: (aula: Aula) => void;
 };
-
-
 
 const diasDaSemana = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"];
 
-const CalendarioAulas = ({ onEditarAula }: CalendarioAulasProps) => {
+const CalendarioAulas = ({ onEditarAula, onVerDetalhes }: CalendarioAulasProps) => {
   const [aulas, setAulas] = useState<Aula[]>([]);
   const [inicioSemana, setInicioSemana] = useState(dayjs().startOf("week"));
 
@@ -25,6 +28,7 @@ const CalendarioAulas = ({ onEditarAula }: CalendarioAulasProps) => {
       ...aula,
       status: aula.status === "concluída" ? "concluída" : "aberta",
       alunos: "alunos" in aula ? aula.alunos : [],
+      tipoAula: aula.tipoAula as "Funcional" | "Cross" | "Musculacao" | "Cardio",
     }));
     setAulas(aulasConvertidas);
   }, []);
@@ -53,8 +57,9 @@ const CalendarioAulas = ({ onEditarAula }: CalendarioAulasProps) => {
       <Box
         display="grid"
         gridTemplateColumns={{
-          xs: "1fr", sm: "repeat(2, 1fr)", md: "repeat(3, 1fr)", lg: "repeat(4, 1fr)",
+          xs: "1fr", sm: "repeat(2, 1fr)", md: "repeat(3, 1fr)",
         }}
+        
         gap={2}
       >
         {dias.map((dia, i) => {
@@ -80,29 +85,38 @@ const CalendarioAulas = ({ onEditarAula }: CalendarioAulasProps) => {
                   >
                     <CustomText text={`${dayjs(aula.dataHora).format("HH:mm")} - ${aula.descricao}`} />
                     <CustomText text={`Capacidade: ${aula.capacidadeMaxima}`} variant="body2" />
+                    <CustomText text={`Alunos agendados: ${aula.alunos?.length ?? 0}`} variant="body2" />
                     <CustomText text={`Status: ${aula.status}`} variant="body2" />
-                    <Box mt={1}>
-                      <Typography variant="body2" fontWeight="bold">Alunos:</Typography>
-                      {aula.alunos && aula.alunos.length > 0 ? (
-                        <Stack direction="row" flexWrap="wrap" gap={1} mt={0.5}>
-                          {aula.alunos.map((aluno) => (
-                            <Chip key={aluno.id} label={aluno.nome} size="small" />
-                          ))}
-                        </Stack>
-                      ) : (
-                        <Typography variant="body2" fontStyle="italic">Nenhum aluno</Typography>
-                      )}
-                    </Box>
-                    <Box mt={2} display="flex" justifyContent="flex-end">
-                      <Button
-                        variant="outlined"
-                        size="small"
-                        startIcon={<EditIcon />}
-                        onClick={() => onEditarAula?.(aula)}
-                      >
-                        Editar
-                      </Button>
-                    </Box>
+                    <Box
+                      mt={2}
+                      display="flex"
+                      justifyContent="flex-start"
+                      gap={1}
+                      alignItems="center"
+                      flexWrap="wrap"
+                  >              
+                      {/* Ícone Ver Detalhes */}
+                      <Tooltip title="Ver detalhes" arrow>
+                        <IconButton
+                          size="medium"
+                          onClick={() => onVerDetalhes?.(aula)}
+                          color="primary"
+                        >
+                          <VisibilityIcon fontSize="medium" />
+                        </IconButton>
+                      </Tooltip>
+
+                      {/* Ícone Editar Aula */}
+                      <Tooltip title="Editar aula" arrow>
+                        <IconButton
+                          size="small"
+                          onClick={() => onEditarAula?.(aula)}
+                          color="primary"
+                        >
+                          <EditIcon fontSize="medium" />
+                        </IconButton>
+                      </Tooltip>
+                    </Box>                
                   </Paper>
                 ))
               ) : (

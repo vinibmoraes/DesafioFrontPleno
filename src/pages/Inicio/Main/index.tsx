@@ -31,7 +31,7 @@ const MainPage = () => {
       <Header onMenuClick={toggleMenu} headerRef ={headerRef} />
       <Sidebar open={menuOpen} onClose={toggleMenu} headerHeight={headerHeight} />
       <Box p={3} mt={`${headerHeight}px`}>
-        <h1>Bem-vindo!</h1>
+        
       </Box>
     </Box>
   );

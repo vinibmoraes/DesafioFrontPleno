@@ -6,7 +6,7 @@ export type Aluno = {
   export type Aula = {
     id: number;
     descricao: string;
-    tipoAula: string;
+    tipoAula: "Musculacao" | "Cardio" | "Funcional" | "Cross";
     dataHora: string;
     capacidadeMaxima: number;
     status: "aberta" | "concluída";
