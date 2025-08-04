@@ -7,11 +7,8 @@ import {
   Typography,
   Chip,
   Stack,
-  Button,
   TextField,
   Tooltip,
-  Snackbar,
-  Alert,
   Box,
   useTheme,
   useMediaQuery,
@@ -20,6 +17,7 @@ import { type Aula } from "../../../../types/AulaAgenda";
 import { enqueueSnackbar } from "notistack";
 import CustomButton from "../../../../components/CustomButton";
 import { Autocomplete } from "@mui/material";
+import SaveIcon from "@mui/icons-material/Save";
 
 
 interface DetalhesAulaProps {
@@ -70,14 +68,22 @@ const DetalhesAula: React.FC<DetalhesAulaProps> = ({
 
   // Função para adicionar aluno
   const handleAdicionarAluno = () => {
+    if (status === "concluída") {
+      enqueueSnackbar("Não é possível adicionar alunos em uma aula finalizada.", {
+        variant: "error",
+      });
+      return;
+    }
+  
     if (!novoAlunoNome.trim()) return;
+  
     if (alunos.length >= (aula?.capacidadeMaxima ?? 0)) {
       enqueueSnackbar("Capacidade máxima de alunos atingida!", {
         variant: "error",
       });
       return;
     }
-    // Gerar id simples para o novo aluno (só front)
+  
     const novoAluno = { id: Date.now(), nome: novoAlunoNome.trim() };
     setAlunos((prev) => [...prev, novoAluno]);
     setNovoAlunoNome("");
@@ -120,6 +126,8 @@ const DetalhesAula: React.FC<DetalhesAulaProps> = ({
 
   const capacidadeMaxima = aula?.capacidadeMaxima ?? 0;
   const atingiuCapacidade = alunos.length >= capacidadeMaxima;
+
+  
 
   return (
       <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
@@ -256,17 +264,19 @@ const DetalhesAula: React.FC<DetalhesAulaProps> = ({
         padding: 2,
       }}>
         <CustomButton 
+          onClick={onClose} 
+          text="Cancelar" 
+          color="#999"
+          
+        />
+        <CustomButton 
+          startIcon={<SaveIcon />}
           onClick={handleSalvar} 
           text="Salvar" 
           color="primary"
           
         />
-        <CustomButton 
-          onClick={onClose} 
-          text="Fechar" 
-          color="#999"
-          
-        />
+
       </DialogActions>
     </Dialog>
   );
