@@ -1,0 +1,9 @@
+// tsconfig.vercel.json
+{
+    "extends": "./tsconfig.app.json",
+    "compilerOptions": {
+      "noUnusedLocals": false,
+      "noUnusedParameters": false
+    }
+  }
+  
